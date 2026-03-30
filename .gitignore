@@ -59,3 +59,7 @@ screens/
 screenshots/
 README.md
 LICENSE
+ssl.crt/
+ssl.key/
+dist/
+addNetlifySteps.txt
