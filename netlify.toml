@@ -1,0 +1,44 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+  functions = "functions"
+[build.environment]
+  NODE_VERSION = "20.16.0"
+
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+   Content-Security-Policy = "frame-ancestors 'self' https://storenotify.in https://192.168.1.3:3000 https://192.168.1.3:8888 http://192.168.1.6:8888 http://localhost:9834 http://localhost:5003 http://localhost:8888 http://localhost:4200 https://atmdemoaivenmysql.onrender.com https://rzp.io https://store-stocks.netlify.app https://fyersmarketfeed.onrender.com https://fyersorders.onrender.com https://fyers-positions-socket-git.onrender.com https://onedinaar.com https://tradedinaar.com https://successrate.netlify.app https://localhost:9384 https://192.168.1.3:9384"
+     X-XSS-Protection = "1; mode=block"
+    X-Robots-Tag = "index"
+    Cache-Control = "public, max-age=0, no-cache, no-store, must-revalidate"
+
+[dev]
+  bind = "0.0.0.0"  # Bind to all available network interfaces
+  framework = "#custom"
+  command = "npm run dev"   # Or your actual dev command
+  port = 8888               # Optional
+  targetPort = 3000         # Optional if using a proxy
+  https = { keyFile = "./ssl.key/server.key", certFile = "./ssl.crt/server.crt" }
+#  https = true
+#  cert = "./ssl.crt/server.crt"
+#  key = "./ssl.key/server.key"
+
+[[headers]]
+for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "https://storenotify.in, https://sheer-maryjo-storenotify-4c573750.koyeb.app, http://localhost:4200, http://localhost:9834, http://localhost:5003, http://localhost:3450, http://localhost:8888, https://192.168.1.6:8888, https://192.168.1.3:8888, https://192.168.1.3:3000, https://storenotiftycom.netlify.app, https://atmdemoaivenmysql.onrender.com, https://rzp.io https://store-stocks.netlify.app https://onedinaar.com https://tradedinaar.com https://successrate.netlify.app https://localhost:9384 https://192.168.1.3:9384"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Credentials = "true"
+
+[functions]
+  # Directory with serverless functions, including background
+  # functions, to deploy. This is an absolute path relative to the 
+  # base directory, which is the root by default (/).
+  directory = "netlify/functions/"
+  node_bundler = "esbuild"
+  external_node_modules =[ "extra-fyers" ,"fyers-api-v3" ]
+
+
