@@ -1,5 +1,5 @@
 [build]
-  command = "npm install next@15.1.0 --legacy-peer-deps && npm run build"
+  command = "npx fix-react2shell-next && npm install next@15.1.0 --legacy-peer-deps && npm run build"
   publish = ".next"
   functions = "functions"
 [build.environment]
