@@ -12,6 +12,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import MarketSync from '@/components/MarketSync'; // Import the wrapper
 import TopGainersSection from "./topgainers-section";
 
 export default function TopGainersPage() {
@@ -24,6 +25,10 @@ export default function TopGainersPage() {
   useEffect(() => {
     if (categoryFromURL !== selectedCategory) {
       setSelectedCategory(categoryFromURL);
+    }
+    if( categoryFromURL === 'NIFTY50'){
+     // setSelectedCategory('')
+     console.log('inside authenticated src\app\(authenticated)top-gainers\page.tsx ')
     }
   }, [categoryFromURL]);
 
@@ -84,6 +89,8 @@ export default function TopGainersPage() {
         </BreadcrumbList>
       </Breadcrumb>
       <br />
+         {/* 🚀 ADD THIS LINE HERE */}
+              <MarketSync />
       <TopGainersSection selectedCategory={selectedCategory} />
     </ContentLayout>
   );

@@ -165,7 +165,7 @@ export default function SparkAreaStocks({
             categories={["Performance"]}
             index="month"
             colors={[chartColor]}
-            className="h-24 w-full"
+            className="h-14 w-full"
           />
         </div>
         <div className="w-full">

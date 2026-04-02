@@ -63,3 +63,6 @@ ssl.crt/
 ssl.key/
 dist/
 addNetlifySteps.txt
+
+# Local Netlify folder
+.netlify

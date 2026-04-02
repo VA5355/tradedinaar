@@ -19,7 +19,7 @@ export default function SparkAreaStocksLoading() {
       </CardHeader>
       <CardContent>
         <div className="pt-4">
-          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-10 w-full" />
         </div>
       </CardContent>
     </Card>

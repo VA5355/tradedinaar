@@ -12,7 +12,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { CSPostHogProvider } from './providers/providers';
 import PostHogPageView from './providers/posthog-pageview';
 import { GoogleAnalytics } from '@next/third-parties/google'
-
+import MarketSync from '@/components/MarketSync'; // Import the wrapper
 
 
   export const metadata: Metadata = {
@@ -92,6 +92,8 @@ export default async function RootLayout({ children }: PropsWithChildren) {
         />
       </head> */}
       <body className="relative min-h-screen">
+        {/* 🚀 ADD THIS LINE HERE */}
+        <MarketSync />
         <PostHogPageView />
         <Toaster />
         <div className="relative z-10">

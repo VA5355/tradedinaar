@@ -58,8 +58,8 @@ export async function middleware(request: NextRequest) {
     let response = NextResponse.next();
     
 
-    // Add CSP headers
-    const cspHeader = `
+    // Add CSP headers   OLD 
+   /* const cspHeader = `
         default-src 'self';
         script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.gstatic.com https://*.firebaseio.com https://*.tawk.to https://va.vercel-scripts.com https://*.googletagmanager.com https://cdn.jsdelivr.net https://apis.google.com https://www.google-analytics.com;
         script-src-elem 'self' 'unsafe-inline' https://*.googleapis.com https://*.gstatic.com https://*.firebaseio.com https://*.tawk.to https://va.vercel-scripts.com https://*.googletagmanager.com https://cdn.jsdelivr.net https://apis.google.com https://s3.tradingview.com https://vercel.live https://us-assets.i.posthog.com https://www.google-analytics.com https://chat.optionxi.com;
@@ -79,6 +79,79 @@ export async function middleware(request: NextRequest) {
         block-all-mixed-content;
         upgrade-insecure-requests;
     `;
+    */
+
+    // ... (keep your existing Arcjet and Decision logic at the top)
+
+    // Add CSP headers  FAILED 
+ /* 🔥 Added your Supabase Project to img-src for potential logo/avatar fetching */    /* 🔥 THE CRITICAL FIX: Added your specific Supabase URL to connect-src */ /* const supabaseProjectUrl = 'mnqyhezjqzlokxboimmm.supabase.co';
+    
+    const cspHeader = `
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.gstatic.com https://*.firebaseio.com https://*.tawk.to https://va.vercel-scripts.com https://*.googletagmanager.com https://cdn.jsdelivr.net https://apis.google.com https://www.google-analytics.com;
+        script-src-elem 'self' 'unsafe-inline' https://*.googleapis.com https://*.gstatic.com https://*.firebaseio.com https://*.tawk.to https://va.vercel-scripts.com https://*.googletagmanager.com https://cdn.jsdelivr.net https://apis.google.com https://s3.tradingview.com https://vercel.live https://us-assets.i.posthog.com https://www.google-analytics.com https://chat.optionxi.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.tawk.to https://us.posthog.com;
+        
+       
+        img-src 'self' data: https://*.googleusercontent.com https://*.googleapis.com https://*.tawk.to https://cdn.jsdelivr.net https://${supabaseProjectUrl};
+        
+        font-src 'self' https://fonts.gstatic.com https://*.tawk.to;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+        frame-ancestors 'none';
+        
+      
+        connect-src 'self' 
+            https://${supabaseProjectUrl} 
+            wss://${supabaseProjectUrl} 
+            https://*.googleapis.com 
+            https://*.firebaseio.com 
+            wss://*.firebaseio.com 
+            wss://supabase.optionxi.com 
+            https://*.tawk.to 
+            wss://*.tawk.to 
+            https://www.google-analytics.com 
+            https://supabase.optionxi.com 
+            https://us.i.posthog.com 
+            https://internal-t.posthog.com 
+            https://us.posthog.com/api/;
+            
+        media-src 'self' https://*.tawk.to;
+        worker-src 'self' blob:;
+        child-src 'self' blob:;
+        frame-src 'self' https://*.tawk.to https://www.tradingview-widget.com https://optionxi.firebaseapp.com https://vercel.live https://chat.optionxi.com;
+        manifest-src 'self';
+        block-all-mixed-content;
+        upgrade-insecure-requests;
+    `; 
+      */ 
+    const supabaseProjectUrl = 'mnqyhezjqzlokxboimmm.supabase.co';
+    
+    const cspHeader = `
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.gstatic.com https://*.firebaseio.com https://*.tawk.to https://va.vercel-scripts.com https://*.googletagmanager.com https://cdn.jsdelivr.net https://apis.google.com https://www.google-analytics.com;
+        script-src-elem 'self' 'unsafe-inline' https://*.googleapis.com https://*.gstatic.com https://*.firebaseio.com https://*.tawk.to https://va.vercel-scripts.com https://*.googletagmanager.com https://cdn.jsdelivr.net https://apis.google.com https://s3.tradingview.com https://vercel.live https://us-assets.i.posthog.com https://www.google-analytics.com https://chat.optionxi.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.tawk.to https://us.posthog.com;
+        img-src 'self' data: https://*.googleusercontent.com https://*.googleapis.com https://*.tawk.to https://cdn.jsdelivr.net https://${supabaseProjectUrl};
+        font-src 'self' https://fonts.gstatic.com https://*.tawk.to;
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+        frame-ancestors 'none';
+        connect-src 'self' https://${supabaseProjectUrl} wss://${supabaseProjectUrl} https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com wss://supabase.optionxi.com https://*.tawk.to wss://*.tawk.to https://www.google-analytics.com https://supabase.optionxi.com https://us.i.posthog.com https://internal-t.posthog.com https://us.posthog.com/api/ https://eu.i.posthog.com https://eu.posthog.com;
+        media-src 'self' https://*.tawk.to;
+        worker-src 'self' blob:;
+        child-src 'self' blob:;
+        frame-src 'self' https://*.tawk.to https://www.tradingview-widget.com https://optionxi.firebaseapp.com https://vercel.live https://chat.optionxi.com;
+        manifest-src 'self';
+        block-all-mixed-content;
+        upgrade-insecure-requests;
+    `;
+
+
+    
+// ... (keep the rest of your response.headers.set logic)
     
     if (cspHeader && typeof cspHeader === 'string') {
     response.headers.set(

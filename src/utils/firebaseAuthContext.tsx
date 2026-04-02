@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithCredential, User } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithCredential, User , getIdToken  } from 'firebase/auth';
 import { useSession,  } from 'next-auth/react';
 import { FirebaseApp } from 'firebase/app';
 import { app, app2 } from './firebaseConfig';
@@ -31,6 +31,7 @@ export const FirebaseAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
   const { data: session } = useSession();
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const auth = getAuth(app);
@@ -38,6 +39,23 @@ export const FirebaseAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+
+        try {
+          // FORCE a token refresh (true) to ensure it's not grabbing a stale/null one
+          const token = await user.getIdToken(true);
+
+          if (token) {
+            // Set your state/cookies here
+           setToken(token); //THIS IS NOT WORKING 
+         //     user.refreshToken = token ; // THIS ALSO FAILS 
+            } else {
+              console.error('No firebase token found for resignin app1');
+            }
+          } catch (err) {
+            console.error("Error refreshing token:", err);
+          }
+
+
         setFirebaseUser(user);
         setLoading(false);
       } else {

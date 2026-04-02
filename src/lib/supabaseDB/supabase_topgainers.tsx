@@ -1,11 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
 import { StockDataResponse, TopGainerLoserData } from '../../datamodels/topgainerloser_model';
-
+import { useNifty50Gainers } from '@/hooks/use-nifty50gainers'; // Import your store
+import { useCallback } from 'react';
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
+/**
+ * PURE UTILITY: Fetches from DB and transforms
+ */
 export async function fetchTopGainersData(category: string): Promise<StockDataResponse> {
   try {
     let tableName: string;
@@ -64,4 +68,39 @@ export async function fetchTopGainersData(category: string): Promise<StockDataRe
       error: err instanceof Error ? err : new Error('Unknown error occurred') 
     };
   }
+}
+
+/**
+ * RECOMPOSABLE HOOK: Uses Zustand Local Storage first, then Supabase
+ */
+export function useTopGainers(category: string) {
+  const { data: storedData, setGainers, setLoading, setError, isLoading, error } = useNifty50Gainers();
+
+  const refreshData = useCallback(async () => {
+    // Only handle Nifty50 for the Zustand store as per your requirement nifty50
+    if (category.toLowerCase() !== 'top_gainers_nifty50') {
+      return await fetchTopGainersData(category);
+    }
+
+    setLoading(true);
+    const result = await fetchTopGainersData(category);
+
+    if (result.error) {
+      setError(result.error.message);
+    } else if (result.data) {
+      setGainers(result.data);
+    }
+    setLoading(false);
+    return result;
+  }, [category, setGainers, setLoading, setError]);
+  const newErr = { error }
+  const rtObj =  {
+    // If it's nifty50, return storedData immediately (from Local Storage), 
+    // otherwise it returns null until refreshed.
+    data: category.toLowerCase() === 'top_gainers_nifty50' ? storedData : null,
+    isLoading,
+    error :newErr instanceof Error ? newErr : new Error(error!) ,
+    refreshData
+  };
+  return rtObj;
 }
