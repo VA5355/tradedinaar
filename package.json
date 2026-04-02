@@ -2,9 +2,11 @@
   "name": "optionxi-web",
   "version": "0.1.0",
   "private": true,
+   "ere": "--env-file=.env.local ",
+   "type":"module",
   "scripts": {
     "dev": "next dev ",
-    "prebuild": "node --env-file=.env.local scripts/market-sync.mjs",
+    "prebuild": "node scripts/market-sync.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

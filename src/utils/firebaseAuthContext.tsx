@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithCredential, User , getIdToken  } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithCredential, User   } from 'firebase/auth';
 import { useSession,  } from 'next-auth/react';
 import { FirebaseApp } from 'firebase/app';
 import { app, app2 } from './firebaseConfig';
@@ -42,11 +42,13 @@ export const FirebaseAuthProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
         try {
           // FORCE a token refresh (true) to ensure it's not grabbing a stale/null one
-          const token = await user.getIdToken(true);
-
-          if (token) {
+          const tokenNew = await user.getIdToken(true);
+          console.log('top token '+token)
+          console.log('top token '+tokenNew)
+ 
+          if (tokenNew) {
             // Set your state/cookies here
-           setToken(token); //THIS IS NOT WORKING 
+           setToken(tokenNew); //THIS IS NOT WORKING 
          //     user.refreshToken = token ; // THIS ALSO FAILS 
             } else {
               console.error('No firebase token found for resignin app1');

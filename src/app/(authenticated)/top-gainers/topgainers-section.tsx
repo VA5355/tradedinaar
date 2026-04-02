@@ -6,7 +6,7 @@ import SparkAreaStocks from '@/components/chart/chart-stock-single'
 import { useTopGainers } from '@/lib/supabaseDB/supabase_topgainers';
 import { formatStockDataForChart } from '@/lib/supabaseDB/helper_formatdata';
 import SparkAreaStocksLoading from '@/components/chart/chart-stock-loading';
-import StockDetailSideBarPage from '@/components/custom/cust_sidebar_stockdetails';
+//import StockDetailSideBarPage from '@/components/custom/cust_sidebar_stockdetails';
 import { useNifty50Gainers } from '@/hooks/use-nifty50gainers';
 
 interface TopGainersSectionProps {
@@ -44,6 +44,7 @@ const displayData = (niftyData && niftyData.length > 0)
   const handleStockClick = (stock: string) => {
     setStockName(stock)
     setIsSheetOpen(true)
+    console.log(''+stockName)
   }
 
   // Handle Loading state from the hook

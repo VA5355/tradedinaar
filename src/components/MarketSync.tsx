@@ -8,7 +8,7 @@ import { useEffect , useCallback} from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useNifty50Gainers } from '@/hooks/use-nifty50gainers';
 import { useFirebaseAuth } from "@/utils/firebaseAuthContext";
-import JSXStyle from 'styled-jsx/style';
+//import JSXStyle from 'styled-jsx/style';
 
 export let gainersData: TopGainerLoserData[] ;
 export default function MarketSync() {
